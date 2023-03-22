@@ -1,0 +1,16 @@
+@keyframes textEffect{ 
+0% {color: white}
+25%{ color:white}
+
+50%  {color:rgb(16 185 129)}
+100% {color: green} 
+    
+}
+.txt{
+    color:white;
+    animation-name: textEffect;
+    animation-duration: 4s;
+    animation-delay: 10s;
+    animation-iteration-count:infinite;
+
+}
