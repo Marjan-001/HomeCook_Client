@@ -1,35 +1,115 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Lottie from "lottie-react";
 import login from "../../68312-login.json"
 import { Link } from 'react-router-dom';
 
+import './signup.css'
+import { AuthContext } from '../../Context/Authprovider/Authprovider';
+
 const Signup = () => {
+
+    const { createUser } = useContext(AuthContext);
+    // console.log("create user", createUser)
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [errorpass, setErrorpass] = useState("");
+
+    const [show, setShow] = useState(false)
+
+    const handleName = e => {
+        setName(e.target.value);
+    }
+
+    const handleShow = () => {
+        setShow(!show);
+    }
+
+    const handleEmail = e => {
+        const isValidemail = /\S+@\S+\.\S+/.test(e.target.value);
+
+        if (!isValidemail) {
+            setError("please give a valid email")
+            return;
+        }
+
+
+
+        setError("");
+        setEmail(e.target.value);
+    }
+
+    const handlePassword = e => {
+
+        if (!/(?=.{8,})/.test(e.target.value)) {
+            setErrorpass("Password must have 8 characters ");
+            return;
+        }
+
+
+        setErrorpass("")
+        setPassword(e.target.value);
+    }
+
+    const handleRegister = (event) => {
+        event.preventDefault();
+        console.log(name)
+
+        console.log(name, email, password);
+
+        createUser(email, password)
+            .then(result => {
+
+                const user = result.user;
+                console.log('registered user', user);
+            })
+            .catch(error => {
+                console.error(error)
+            })
+
+
+    }
     return (
         <div className='grid grid-cols-1 lg:grid-cols-2 w-full gap-5 mt-24 mx-auto'>
 
             <Lottie className=" h-auto  " animationData={login} loop={true} />
-            <div className=" max-w-md   bg-emerald-200 p-8 space-y-3 rounded-xl ">
+            <div className=" mx-auto   bg-emerald-200 p-8 space-y-3 rounded-xl ">
                 <h1 className="text-2xl font-bold text-center">Sign Up</h1>
-                <form novalidate="" action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
+                <form onSubmit={handleRegister} action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
                     <div className="space-y-1 text-sm">
                         <label for="username" className="block dark:text-gray-400">Username</label>
-                        <input type="text" name="username" id="username" placeholder="Username" className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400" />
+                        <input onBlur={handleName} type="text" name="username" id="username" placeholder="Enter your name" className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400" required />
                     </div>
                     <div className="space-y-1 text-sm">
                         <label for="email" className="block dark:text-gray-400">Email</label>
-                        <input type="text" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400" />
+                        <input onBlur={handleEmail} type="text" name="email" id="email" placeholder="Email" className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400" required />
+                        <span className='text-error text-xs'>{error}</span>
                     </div>
                     <div className="space-y-1 text-sm">
                         <label for="password" className="block dark:text-gray-400">Password</label>
-                        <input type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400" />
+                        <div className="container   relative flex justify-between items-center ">
 
+                            <input onBlur={handlePassword} type={show ? 'text' : "password"} name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400
+                          
+                            " required />
+                            <span className='text-error text-xs'>{errorpass}</span>
+                            <label onClick={handleShow} className=' absolute right-6
+                            bottom-3 text-sm text-gray-600'   >{show ? 'Hide' : 'Show'}</label>
+                        </div>
                     </div>
-                    <button className="block w-full p-3 text-center rounded-sm btn-primary">Sign in</button>
+                    <button
+                        onClick={handleRegister}
+                        className="block w-full p-3 text-center rounded-sm btn-primary
+                    font-bold
+                    ">Register</button>
                 </form>
                 <div className="flex items-center pt-4 space-x-1">
                     <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
                     <p className="px-3 text-sm dark:text-gray-400">Login with social accounts</p>
                     <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
+
                 </div>
                 <div className="flex justify-center space-x-4">
                     <button aria-label="Log in with Google" className="p-3 rounded-sm">

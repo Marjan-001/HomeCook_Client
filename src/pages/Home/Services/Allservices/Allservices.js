@@ -22,7 +22,7 @@ const Allservices = () => {
 
                         return (
 
-                            <div className="card card-compact   shadow-xl">
+                            <div className="card card-compact   shadow-xl" key={_id}>
                                 <figure><img className="w-full bottom-7 object-cover h-72" src={image} alt="Shoes" /></figure>
                                 <div className="card-body">
                                     <h2 className="card-title text-emerald-500">{name}</h2>
