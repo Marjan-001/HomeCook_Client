@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../Context/Authprovider/Authprovider';
 
 
 const Navbar = () => {
-
+  const { user, logOut } = useContext(AuthContext)
   const navItems = <React.Fragment>
     <li><Link to='/'>Home</Link></li>
     <li><Link to='/about'>About</Link></li>
@@ -11,6 +12,13 @@ const Navbar = () => {
 
 
   </React.Fragment>
+
+  const handlesignOut = () => {
+
+    logOut()
+      .then(result => { })
+      .catch(error => console.error(error))
+  }
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -21,6 +29,7 @@ const Navbar = () => {
           <ul tabIndex={0} className="menu menu-compact font-bold text-emerald-500 dropdown-content mt-3 p-2 shadow bg-emerald-100 rounded-box w-52">
             {navItems}
           </ul>
+
         </div>
         <Link to='/' className="text-emerald-500  normal-case text-xl lg:text-2xl font-extrabold">HomeCook</Link>
       </div>
@@ -30,7 +39,15 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link to='login' className="btn btn-primary">Login</Link>
+        <h1 className='text-emerald-600 mr-4'>{user?.displayName}</h1>
+
+        {
+          user?.email ?
+            <button onClick={handlesignOut} className="btn btn-primary">Log Out</button>
+            :
+
+            <Link to='login' className="btn btn-primary">Login</Link>
+        }
       </div>
     </div>
   );

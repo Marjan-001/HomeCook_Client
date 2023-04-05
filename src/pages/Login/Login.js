@@ -12,9 +12,8 @@ const Login = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
-    const googleProvider = new GoogleAuthProvider();
     const handleGoogleLogin = () => {
-        googleLogin(googleProvider)
+        googleLogin()
             .then(result => {
                 const user = result.user;
                 console.log(user);
@@ -33,6 +32,8 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user)
+                form.reset();
+                navigate('/')
             })
             .catch(error => console.log(error))
     }
