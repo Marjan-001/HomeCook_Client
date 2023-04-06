@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 import AddReview from '../AddReview/AddReview';
+import { AuthContext } from '../../Context/Authprovider/Authprovider';
 
 const Detail = () => {
     const router = useParams();
-    const [detail, setDetail] = useState([])
+    const [detail, setDetail] = useState([]);
+    const { user } = useContext(AuthContext)
 
     const { id } = router;
-    // console.log(router)
+    console.log(detail)
 
 
     useEffect(() => {
@@ -29,8 +31,8 @@ const Detail = () => {
 
     return (
         <section className="p-6 dark:bg-gray-800 dark:text-gray-100">
-            <div className="container grid gap-6 mx-auto text-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-5">
-                <img src={detail.image} alt="" className="object-cover items-center mt-64 w-full rounded-md xl:col-span-2 dark:bg-gray-500" />
+            <div className="container grid gap-6 mx-auto text-center grid-cols-1 ">
+                <img src={detail.image} alt="" className="object-cover items-center mx-auto rounded-md  dark:bg-gray-500" />
                 <div className="w-full px-6 rounded-md sm:px-12 md:px-16 xl:col-span-3 dark:bg-gray-900">
 
                     <h1 className="text-3xl lg:text-5xl font-extrabold text-emerald-700">{detail.name}</h1>
@@ -45,7 +47,11 @@ const Detail = () => {
                         <button className='btn btn-sm btn-primary ml-5 text-white'>+</button>
                         <button className='btn btn-sm btn-primary ml-5 text-white'>Order</button> */}
                         <div className='mt-0'>
-                            <AddReview />
+                            {
+                                user?.email ?
+                                    <AddReview foodDetails={detail} /> :
+                                    <h2 className='text-xl  text-emerald-600'>Please <Link to='/login' className='font-bold underline' >login</Link> to add review</h2>
+                            }
                         </div>
                     </div>
                 </div>
