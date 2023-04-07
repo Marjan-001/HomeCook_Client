@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 const AddReview = (foodDetails) => {
 
-    const { _id, service_id, image, price } = foodDetails;
+    const { _id, service_id, image, price } = foodDetails.foodDetails;
     const { user } = useContext(AuthContext);
 
     const location = useLocation();
@@ -32,9 +32,9 @@ const AddReview = (foodDetails) => {
             email,
             date
         }
-
+        console.log(postedReview)
         //post review to the server for specific service
-        fetch(`http://localhost:5000/reviews/${_id}`, {
+        fetch(`http://localhost:5000/reviews`, {
             method: 'POST',
             headers: {
                 "content-type": "application/json"
@@ -65,7 +65,10 @@ const AddReview = (foodDetails) => {
 
                 <button type="submit" className="flex items-center justify-center h-12 px-6 mt-8 text-sm font-semibold rounded bg-emerald-500 text-white">Post Review</button>
             </form>
+
         </div>
+
+
     );
 };
 
