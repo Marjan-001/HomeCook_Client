@@ -34,7 +34,7 @@ const AddReview = (foodDetails) => {
         }
         console.log(postedReview)
         //post review to the server for specific service
-        fetch(`http://localhost:5000/reviews`, {
+        fetch(`https://homecookserver.vercel.app/reviews`, {
             method: 'POST',
             headers: {
                 "content-type": "application/json"

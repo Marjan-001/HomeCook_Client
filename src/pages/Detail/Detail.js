@@ -17,7 +17,7 @@ const Detail = () => {
 
     useEffect(() => {
 
-        fetch(`http://localhost:5000/services/${id}`)
+        fetch(`https://homecookserver.vercel.app/services/${id}`)
             .then(res => res.json())
             .then((data) => {
                 if (data.success) {
